@@ -4,6 +4,7 @@
 #include "shift_digit.h"
 #include "hwcfg.h"
 
+// Digit segments:
 //   ---a---
 //  |       |
 //  f       b
@@ -77,19 +78,19 @@ void shift_digit_brightness_set(uint8_t percent)
     {
         hal_pwm_A1_stop();
         // Enable is active low.
-        hal_gpio_clr(g_hwcfg->io_ena);
-        hal_gpio_cfg(g_hwcfg->io_ena, HAL_IO_OUT);
+        hal_gpio_clr(g_hwcfg->io_pwm);
+        hal_gpio_cfg(g_hwcfg->io_pwm, HAL_IO_OUT);
     }
 //    else if (0 == percent)
 //    {
 //        hal_pwm_A1_stop();
 //        // Enable is active low.
-//        hal_gpio_set(g_hwcfg->io_ena);
-//        hal_gpio_cfg(g_hwcfg->io_ena, HAL_IO_OUT);
+//        hal_gpio_set(g_hwcfg->io_pwm);
+//        hal_gpio_cfg(g_hwcfg->io_pwm, HAL_IO_OUT);
 //    }
     else
     {
-        hal_pwm_A1_open(g_hwcfg->io_ena);
+        hal_pwm_A1_open(g_hwcfg->io_pwm);
         hal_pwm_A1_cfg(60, 1024 - g_hwcfg->brightness_lut[percent-1]);
         hal_pwm_A1_start();
     }
