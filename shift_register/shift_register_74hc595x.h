@@ -1,7 +1,6 @@
 #ifndef _SHIFT_REGISTER_74HC595X_H_
 #define _SHIFT_REGISTER_74HC595X_H_
 
-#include <stdint.h>
 #include "hal_gpio.h"
 
 typedef struct {
