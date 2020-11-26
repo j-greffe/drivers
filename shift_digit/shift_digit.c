@@ -25,7 +25,9 @@ void shift_digit_open(void* hwcfg)
     shift_register_enable();
 
     // Brightness control
+    hal_pwm_A1_open(g_hwcfg->io_pwm);
     shift_digit_brightness_set(100);
+    hal_pwm_A1_start();
 }
 
 void shift_digit_update(void)
@@ -125,26 +127,16 @@ void shift_digit_print_string(char* s)
     }
 }
 
+// From 1 to 100
 void shift_digit_brightness_set(uint8_t percent)
 {
-    if (100 <= percent || 1024 <= g_hwcfg->brightness_lut[percent-1])
+    if (percent < 1)
     {
-        hal_pwm_A1_stop();
-        // Enable is active low.
-        hal_gpio_clr(g_hwcfg->io_pwm);
-        hal_gpio_cfg(g_hwcfg->io_pwm, HAL_IO_OUT);
+        percent = 1;
     }
-//    else if (0 == percent)
-//    {
-//        hal_pwm_A1_stop();
-//        // Enable is active low.
-//        hal_gpio_set(g_hwcfg->io_pwm);
-//        hal_gpio_cfg(g_hwcfg->io_pwm, HAL_IO_OUT);
-//    }
-    else
+    else if (percent > 100)
     {
-        hal_pwm_A1_open(g_hwcfg->io_pwm);
-        hal_pwm_A1_cfg(60, 1024 - g_hwcfg->brightness_lut[percent-1]);
-        hal_pwm_A1_start();
+        percent = 100;
     }
+    hal_pwm_A1_cfg(60, 1024 - g_hwcfg->brightness_lut[percent-1]);
 }
