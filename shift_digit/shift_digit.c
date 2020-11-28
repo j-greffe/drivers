@@ -138,5 +138,5 @@ void shift_digit_brightness_set(uint8_t percent)
     {
         percent = 100;
     }
-    hal_pwm_A1_cfg(60, 1024 - g_hwcfg->brightness_lut[percent-1]);
+    hal_pwm_A1_cfg(1024, 1024 - g_hwcfg->brightness_lut[percent-1]);
 }
